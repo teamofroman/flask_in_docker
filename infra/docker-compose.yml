@@ -1,12 +1,26 @@
 version: '3'
 name: 'flask-in-docker'
 services:
+  db:
+    image: postgres:15.4-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=test_pass
+      - POSTGRES_DB=flask_in_docker
+    
   backend:
     build: ../src
-    container_name: backend-flask
     environment:
       - FLASK_ENV=development
       - PYTHONUNBUFFERED=True
+      - RUN_IN_DOCKER=True
     restart: unless-stopped
     ports:
       - "5000:5000"
+
+volumes:
+  db_data:
