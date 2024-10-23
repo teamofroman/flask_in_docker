@@ -1,0 +1,12 @@
+version: '3'
+name: 'flask-in-docker'
+services:
+  backend:
+    build: ../src
+    container_name: backend-flask
+    environment:
+      - FLASK_ENV=development
+      - PYTHONUNBUFFERED=True
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
