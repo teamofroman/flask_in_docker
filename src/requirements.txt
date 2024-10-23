@@ -3,3 +3,4 @@ gunicorn
 flask-sqlalchemy
 Flask-Migrate
 psycopg2-binary
+flask-admin

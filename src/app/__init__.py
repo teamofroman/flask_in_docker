@@ -1,6 +1,8 @@
 import os
 
 from flask import Flask
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
@@ -49,15 +51,19 @@ def init_flask_app():
         db = SQLAlchemy(app)
         migrate = Migrate(app, db)
 
+        admin = Admin(app, name='flast_in_docker')
+
         print(
             f"\n\033[32m Сервер запустился с конфигом:\n\033[32m {path}\n\033[0m"
         )
     except KeyError:
         print(f"\033[31m Файл {path} не найден или неверный\n\033[0m")
 
-    return app, db
+    return app, db, admin
 
 
-app, db = init_flask_app()
+app, db, admin = init_flask_app()
 
-from models import *  # noqa
+from models import User  # noqa
+
+admin.add_view(ModelView(User, db.session))
